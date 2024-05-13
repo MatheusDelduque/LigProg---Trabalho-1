@@ -9,31 +9,50 @@
 
 using namespace std;
 
-double averageGoalEvolutionScored(Team team);
-double averageGoalEvolutionConceded(Team team);
+void averageGoalEvolutionScoredPerYear(Team team);
+void averageGoalEvolutionScoredPerChampionship(Team team);
+
+void averageGoalEvolutionConcededPerYear(Team team);
+void averageGoalEvolutionConcededPerChampionship(Team team);
 
 int main()
 {
     Liga liga;
 
-    vector<vector<unsigned int>> goalsScored =
-        {
-            {0, 2, 0, 1, 20, 0, 3}, // Primeiro Campeonato: ano 1: 0 gols marcado, ano 2: 0 gols marcado, ano 3: 0 gols marcado, ano 4: 1 gol marcado, ano 5: 0 gols marcado, ano 6: 3 gols marcados, ano 7: 0 gols marcado
-            {1, 0, 3, 0, 1, 3, 2}, // Segundo Campeonato: ano 1: 1 gol marcado, ano 2: 0 gol marcado, ano 3: 3 gols marcados, ano 4: 0 gol marcado, ano 5: 1 gol marcado, ano 6: 2 gols marcados, ano 7: 0 gols marcado
-            {3, 1, 2, 0, 0, 1, 4}  // Terceiro Campeonato: ano 1: 3 gols marcados, ano 2: 1 gol marcado, ano 3: 2 gols marcados, ano 4: 0 gol marcado, ano 5: 0 gol marcado, ano 6: 1 gol marcado, ano 7: 0 gols marcado
-        };
+    // [Campeonato][Anos] = Gols marcados
+    vector<vector<unsigned int>> goalsScoredTeamA =
+        {{0, 0, 0, 0, 0, 0, 0},
+         {0, 0, 0, 0, 0, 0, 2},
+         {0, 0, 0, 0, 0, 0, 3}};
 
-    vector<vector<unsigned int>> goalsConceded =
-        {
-            {0, 2, 1, 0, 0, 0, 3}, // Primeiro Campeonato: ano 1: 0 gols sofrido, ano 2: 0 gols sofrido, ano 3: 1 gol sofrido, ano 4: 0 gols sofrido, ano 5: 0 gols sofrido, ano 6: 3 gols sofridos, ano 7: 0 gols sofrido
-            {1, 5, 3, 10, 1, 0, 2}, // Segundo Campeonato: ano 1: 1 gol sofrido, ano 2: 0 gol sofrido, ano 3: 3 gols sofridos, ano 4: 0 gol sofrido, ano 5: 1 gol sofrido, ano 6: 2 gols sofridos, ano 7: 0 gols sofrido
-            {3, 1, 2, 0, 0, 1, 0}  // Terceiro Campeonato: ano 1: 3 gols sofridos, ano 2: 1 gol sofrido, ano 3: 2 gols sofridos, ano 4: 0 gol sofrido, ano 5: 0 gol sofrido, ano 6: 1 gol sofrido, ano 7: 0 gols sofrido
-        };
+    vector<vector<unsigned int>> goalsScoredTeamB =
+        {{0, 0, 0, 0, 0, 0, 1},
+         {1, 0, 3, 10, 1, 3, 2},
+         {3, 1, 2, 5, 0, 1, 4}};
+
+    vector<vector<unsigned int>> goalsScoredTeamC =
+        {{0, 0, 0, 0, 0, 0, 2},
+         {1, 2, 3, 10, 1, 3, 2},
+         {3, 1, 2, 5, 3, 1, 4}};
+
+    // [Campeonato][Anos] = Gols sofridos
+    vector<vector<unsigned int>> goalsConcededA =
+        {{0, 0, 0, 0, 0, 0, 2},
+         {1, 2, 3, 5, 23, 0, 2},
+         {3, 1, 2, 0, 10, 1, 0}};
+    vector<vector<unsigned int>> goalsConcededB =
+        {{0, 2, 1, 0, 0, 0, 1},
+         {1, 5, 3, 10, 1, 0, 2},
+         {0, 0, 2, 0, 0, 1, 0}};
+    vector<vector<unsigned int>> goalsConcededC =
+        {{0, 0, 0, 0, 0, 0, 0},
+         {1, 5, 3, 10, 1, 0, 5},
+         {3, 1, 2, 9, 0, 1, 0}};
 
     // Criar o time
-    Team teamA("Time A", goalsScored, goalsConceded);
-    Team teamB("Time B", goalsScored, goalsConceded);
-    Team teamC("Time C", goalsScored, goalsConceded);
+    Team teamA("Time A", goalsScoredTeamA, goalsConcededA);
+    Team teamB("Time B", goalsScoredTeamB, goalsConcededB);
+    Team teamC("Time C", goalsScoredTeamA, goalsConcededC);
 
     // Adicionar o time na liga
     liga.addTime(teamA);
@@ -43,12 +62,16 @@ int main()
     do
     {
         cout << "Selecione uma opcao:" << endl;
-        cout << "1 - Mostrar a evolucao de gols marcados de um time" << endl;
+        cout << "1 - Exibir a evolução da média dos gols realizados e sofridos" << endl;
         cout << "2 - Mostrar a evolucao de gols sofridos de um time" << endl;
         cout << "3 - Mostrar a evolucao de gols marcados e sofridos de um time" << endl;
-        cout << "4 - Mostrar a evolucao de gols marcados de todos os times" << endl;
-        cout << "5 - Sair" << endl;
+        cout << "4 - Exibir o time com maior saldo de gols em cada campeonato" << endl;
+        cout << "5 - Exibir o time que teve a maior evolução no último ano em relação aos gols efetuados e gols sofridos" << endl;
+
+        cout << endl;
+
         cin >> option;
+        cout << endl;
 
         switch (option)
         {
@@ -58,14 +81,14 @@ int main()
             for (unsigned int index = 0; index < teams.size(); index++)
             {
                 Team team = teams[index];
-                string teamName = team.getName();
 
-                for (unsigned int championship = 0; championship < goalsScored.size(); championship++)
-                {
-                    double movingAverageScored = liga.averageGoalEvolution(teamName, goalsScored, averageGoalEvolutionScored);
-                    cout << fixed << setprecision(1) << "A evolucao media de gols marcados do time " << teamName << " no Campeonato " << championship + 1 << " eh: " << movingAverageScored << endl;
-                    cout << endl;
-                }
+                liga.averageGoalEvolution(team, averageGoalEvolutionScoredPerYear);
+                cout << endl;
+                liga.averageGoalEvolution(team, averageGoalEvolutionConcededPerYear);
+                cout << endl;
+                liga.averageGoalEvolution(team, averageGoalEvolutionScoredPerChampionship);
+                liga.averageGoalEvolution(team, averageGoalEvolutionConcededPerChampionship);
+                cout << endl;
             }
 
             break;
@@ -81,6 +104,11 @@ int main()
 
         case 4:
         {
+            vector<Team> teams = liga.getTeams();
+            liga.highestGoalDifferenceChampionship(teams);
+            cout << endl;
+
+            break;
         }
 
         case 5:
@@ -95,7 +123,7 @@ int main()
     return 0;
 }
 
-double averageGoalEvolutionScored(Team team)
+void averageGoalEvolutionScoredPerYear(Team team)
 {
     vector<vector<unsigned int>> goalsScored = team.getGoalsScored();
 
@@ -104,14 +132,28 @@ double averageGoalEvolutionScored(Team team)
     {
         for (unsigned int year = goalsScored[championship].size(); year > 0; year--)
         {
-            cout << goalsScored[championship][year] << endl;
+            movingAverage += goalsScored[championship][year];
+        }
+        cout << fixed << setprecision(1) << "A evolucao media de gols marcados do " << team.getName() << " no Campeonato " << championship << " eh: " << movingAverage / goalsScored[championship].size() << endl;
+    }
+}
+
+void averageGoalEvolutionScoredPerChampionship(Team team)
+{
+
+    vector<vector<unsigned int>> goalsScored = team.getGoalsScored();
+    double movingAverage = 0;
+    for (unsigned int championship = 0; championship < goalsScored.size(); championship++)
+    {
+        for (unsigned int year = goalsScored[championship].size(); year > 0; year--)
+        {
             movingAverage += goalsScored[championship][year];
         }
     }
-    return movingAverage / 3;
+    cout << fixed << setprecision(1) << "A evolucao media de gols marcados do " << team.getName() << " em todos os campeonatos eh: " << movingAverage / goalsScored.size() << endl;
 }
 
-double averageGoalEvolutionConceded(Team team)
+void averageGoalEvolutionConcededPerYear(Team team)
 {
     vector<vector<unsigned int>> goalsConceded = team.getGoalsConceded();
 
@@ -122,6 +164,20 @@ double averageGoalEvolutionConceded(Team team)
         {
             movingAverage += goalsConceded[championship][year];
         }
+        cout << fixed << setprecision(1) << "A evolucao media de gols sofridos do " << team.getName() << " no Campeonato " << championship << " eh: " << movingAverage / goalsConceded[championship].size() << endl;
     }
-    return movingAverage / 3;
+}
+
+void averageGoalEvolutionConcededPerChampionship(Team team)
+{
+    vector<vector<unsigned int>> goalsConceded = team.getGoalsConceded();
+    double movingAverage = 0;
+    for (unsigned int championship = 0; championship < goalsConceded.size(); championship++)
+    {
+        for (unsigned int year = goalsConceded[championship].size(); year > 0; year--)
+        {
+            movingAverage += goalsConceded[championship][year];
+        }
+    }
+    cout << fixed << setprecision(1) << "A evolucao media de gols sofridos do " << team.getName() << " em todos os campeonatos eh: " << movingAverage / goalsConceded.size() << endl;
 }
