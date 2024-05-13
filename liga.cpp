@@ -4,28 +4,50 @@
 
 #include "liga.h"
 
-
 void Liga::addTime(Team team)
 {
     teams.push_back(team);
 }
 
-
-double Liga::averageGoalEvolution(string teamName, vector<vector<unsigned int>> gols, double (*function) (Team team))
+void Liga::averageGoalEvolution(Team team, void (*function)(Team team))
 {
+    function(team);
+};
+
+vector<Team> Liga::getTeams()
+{
+    return teams;
+};
+
+void Liga::highestGoalDifferenceChampionship(vector<Team> teams)
+{
+    string teamHighestGoalDifference;
+    int highestGoalDifference = 0;
+    int goalDifference = 0;
     for (unsigned int index = 0; index < teams.size(); index++)
     {
         Team team = teams[index];
 
-        if (team.getName().compare(teamName))
+        vector<vector<unsigned int>> goalsScored = team.getGoalsScored();
+        vector<vector<unsigned int>> goalsConceded = team.getGoalsConceded();
+
+        for (unsigned int championship = 0; championship < goalsScored.size(); championship++)
         {
-            double movingAverage = function(team);
-            return movingAverage;
+
+
+
+            for (unsigned int year = goalsScored[championship].size(); year > 0; year--)
+            {
+                goalDifference += goalsScored[championship][year] - goalsConceded[championship][year];
+                if (goalDifference > highestGoalDifference)
+                {
+                    highestGoalDifference = goalDifference;
+                    teamHighestGoalDifference = team.getName();
+                }
+            }
+            cout << "O time com o maior saldo de gols no Campeonato " << championship << " eh: " << teamHighestGoalDifference << " com a diferenca de: " << highestGoalDifference << endl;
+            goalDifference = 0;
+            highestGoalDifference = 0;
         }
     }
-    return 0;
-};
-
-vector<Team> Liga::getTeams(){
-    return teams;
-};
+}

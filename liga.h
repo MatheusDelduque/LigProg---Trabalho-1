@@ -13,7 +13,8 @@ public:
 
     void addTime(Team team);
     vector<Team> getTeams();
-    double averageGoalEvolution(string nameTeam, vector<vector<unsigned int>> gols, double (*) (Team team));
+    void averageGoalEvolution(Team team, void (*) (Team team));
+    void highestGoalDifferenceChampionship(vector<Team> teams);
 
 private:
     vector<Team> teams;
