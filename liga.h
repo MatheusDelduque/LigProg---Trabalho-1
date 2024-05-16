@@ -8,12 +8,16 @@
 using namespace std;
 
 class Liga
-{   
+{
 public:
-
     void addTime(Team team);
     vector<Team> getTeams();
-    void averageGoalEvolution(Team team, void (*) (Team team));
+    
+    void averageGoalEvolutionScoredPerChampionship(Team team);
+    void averageGoalEvolutionScoredPerYear(Team team);
+    void averageGoalEvolutionConcededPerChampionship(Team team);
+    void averageGoalEvolutionConcededPerYear(Team team);
+
     void highestGoalDifferenceChampionship(vector<Team> teams);
 
 private:

@@ -69,6 +69,7 @@ int main()
         cout << "3 - Mostrar a evolucao de gols marcados e sofridos de um time" << endl;
         cout << "4 - Exibir o time com maior saldo de gols em cada campeonato" << endl;
         cout << "5 - Exibir o time que teve a maior evolução no último ano em relação aos gols efetuados e gols sofridos" << endl;
+        cout << "0 - Sair" << endl;
 
         cout << endl;
 
@@ -84,12 +85,14 @@ int main()
             {
                 Team team = teams[index];
 
-                liga.averageGoalEvolution(team, averageGoalEvolutionScoredPerYear);
+                liga.averageGoalEvolutionScoredPerYear(team);
                 cout << endl;
-                liga.averageGoalEvolution(team, averageGoalEvolutionConcededPerYear);
+
+                liga.averageGoalEvolutionConcededPerYear(team);
                 cout << endl;
-                liga.averageGoalEvolution(team, averageGoalEvolutionScoredPerChampionship);
-                liga.averageGoalEvolution(team, averageGoalEvolutionConcededPerChampionship);
+
+                liga.averageGoalEvolutionScoredPerChampionship(team);
+                liga.averageGoalEvolutionConcededPerChampionship(team);
                 cout << endl;
             }
 
@@ -116,6 +119,9 @@ int main()
         case 5:
             break;
 
+        case 0:
+            break;
+
         default:
             cout << "Opcao invalida" << endl;
         }
@@ -123,63 +129,4 @@ int main()
     } while (option != 5);
 
     return 0;
-}
-
-void averageGoalEvolutionScoredPerYear(Team team)
-{
-    vector<vector<unsigned int>> goalsScored = team.getGoalsScored();
-
-    double movingAverage = 0;
-    for (unsigned int championship = 0; championship < goalsScored.size(); championship++)
-    {
-        for (unsigned int year = 0; year < goalsScored[championship].size() - 1; year++)
-        {
-            movingAverage += goalsScored[championship][year];
-        }
-        cout << fixed << setprecision(1) << "A evolucao media de gols marcados do " << team.getName() << " no Campeonato " << championship << " eh: " << movingAverage / goalsScored[championship].size() << endl;
-    }
-}
-
-void averageGoalEvolutionScoredPerChampionship(Team team)
-{
-
-    vector<vector<unsigned int>> goalsScored = team.getGoalsScored();
-    double movingAverage = 0;
-    for (unsigned int championship = 0; championship < goalsScored.size(); championship++)
-    {
-        for (unsigned int year = 0; year < goalsScored[championship].size() - 1; year++)
-        {
-            movingAverage += goalsScored[championship][year];
-        }
-    }
-    cout << fixed << setprecision(1) << "A evolucao media de gols marcados do " << team.getName() << " em todos os campeonatos eh: " << movingAverage / goalsScored.size() << endl;
-}
-
-void averageGoalEvolutionConcededPerYear(Team team)
-{
-    vector<vector<unsigned int>> goalsConceded = team.getGoalsConceded();
-
-    double movingAverage = 0;
-    for (unsigned int championship = 0; championship < goalsConceded.size(); championship++)
-    {
-        for (unsigned int year = 0; year < goalsConceded[championship].size() - 1; year++)
-        {
-            movingAverage += goalsConceded[championship][year];
-        }
-        cout << fixed << setprecision(1) << "A evolucao media de gols sofridos do " << team.getName() << " no Campeonato " << championship << " eh: " << movingAverage / goalsConceded[championship].size() << endl;
-    }
-}
-
-void averageGoalEvolutionConcededPerChampionship(Team team)
-{
-    vector<vector<unsigned int>> goalsConceded = team.getGoalsConceded();
-    double movingAverage = 0;
-    for (unsigned int championship = 0; championship < goalsConceded.size(); championship++)
-    {
-        for (unsigned int year = 0; year < goalsConceded[championship].size() - 1; year++)
-        {
-            movingAverage += goalsConceded[championship][year];
-        }
-    }
-    cout << fixed << setprecision(1) << "A evolucao media de gols sofridos do " << team.getName() << " em todos os campeonatos eh: " << movingAverage / goalsConceded.size() << endl;
 }
