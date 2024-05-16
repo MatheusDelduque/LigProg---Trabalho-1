@@ -21,38 +21,40 @@ int main()
 
     // [Campeonato][Anos] = Gols marcados
     vector<vector<unsigned int>> goalsScoredTeamA =
-        {{0, 0, 0, 0, 0, 0, 0},
-         {0, 0, 0, 0, 0, 0, 2},
-         {0, 0, 0, 0, 0, 0, 3}};
-
-    vector<vector<unsigned int>> goalsScoredTeamB =
-        {{0, 0, 0, 0, 0, 0, 1},
-         {1, 0, 3, 10, 1, 3, 2},
-         {3, 1, 2, 5, 0, 1, 4}};
-
-    vector<vector<unsigned int>> goalsScoredTeamC =
-        {{0, 0, 0, 0, 0, 0, 2},
-         {1, 2, 3, 10, 1, 3, 2},
-         {3, 1, 2, 5, 3, 1, 4}};
+        {{0, 0, 0, 0},
+         {0, 0, 0, 0},
+         {0, 0, 0, 0}};
 
     // [Campeonato][Anos] = Gols sofridos
     vector<vector<unsigned int>> goalsConcededA =
-        {{0, 0, 0, 0, 0, 0, 2},
-         {1, 2, 3, 5, 23, 0, 2},
-         {3, 1, 2, 0, 10, 1, 0}};
+        {{0, 0, 1, 1},
+         {1, 2, 3, 5},
+         {0, 1, 2, 0}};
+
+    vector<vector<unsigned int>> goalsScoredTeamB =
+        {{0, 0, 0, 0},
+         {1, 0, 3, 0},
+         {0, 0, 0, 0}};
+
     vector<vector<unsigned int>> goalsConcededB =
-        {{0, 2, 1, 0, 0, 0, 1},
-         {1, 5, 3, 10, 1, 0, 2},
-         {0, 0, 2, 0, 0, 1, 0}};
+        {{0, 2, 0, 0},
+         {0, 0, 0, 0},
+         {0, 0, 2, 0}};
+
+    vector<vector<unsigned int>> goalsScoredTeamC =
+        {{0, 0, 0, 0},
+         {0, 0, 0, 0},
+         {3, 1, 2, 5}};
+
     vector<vector<unsigned int>> goalsConcededC =
-        {{0, 0, 0, 0, 0, 0, 0},
-         {1, 5, 3, 10, 1, 0, 5},
-         {3, 1, 2, 9, 0, 1, 0}};
+        {{3, 0, 0, 0},
+         {0, 0, 0, 0},
+         {0, 0, 0, 0}};
 
     // Criar o time
     Team teamA("Time A", goalsScoredTeamA, goalsConcededA);
     Team teamB("Time B", goalsScoredTeamB, goalsConcededB);
-    Team teamC("Time C", goalsScoredTeamA, goalsConcededC);
+    Team teamC("Time C", goalsScoredTeamC, goalsConcededC);
 
     // Adicionar o time na liga
     liga.addTime(teamA);
@@ -130,7 +132,7 @@ void averageGoalEvolutionScoredPerYear(Team team)
     double movingAverage = 0;
     for (unsigned int championship = 0; championship < goalsScored.size(); championship++)
     {
-        for (unsigned int year = goalsScored[championship].size(); year > 0; year--)
+        for (unsigned int year = 0; year < goalsScored[championship].size() - 1; year++)
         {
             movingAverage += goalsScored[championship][year];
         }
@@ -145,7 +147,7 @@ void averageGoalEvolutionScoredPerChampionship(Team team)
     double movingAverage = 0;
     for (unsigned int championship = 0; championship < goalsScored.size(); championship++)
     {
-        for (unsigned int year = goalsScored[championship].size(); year > 0; year--)
+        for (unsigned int year = 0; year < goalsScored[championship].size() - 1; year++)
         {
             movingAverage += goalsScored[championship][year];
         }
@@ -160,7 +162,7 @@ void averageGoalEvolutionConcededPerYear(Team team)
     double movingAverage = 0;
     for (unsigned int championship = 0; championship < goalsConceded.size(); championship++)
     {
-        for (unsigned int year = goalsConceded[championship].size(); year > 0; year--)
+        for (unsigned int year = 0; year < goalsConceded[championship].size() - 1; year++)
         {
             movingAverage += goalsConceded[championship][year];
         }
@@ -174,7 +176,7 @@ void averageGoalEvolutionConcededPerChampionship(Team team)
     double movingAverage = 0;
     for (unsigned int championship = 0; championship < goalsConceded.size(); championship++)
     {
-        for (unsigned int year = goalsConceded[championship].size(); year > 0; year--)
+        for (unsigned int year = 0; year < goalsConceded[championship].size() - 1; year++)
         {
             movingAverage += goalsConceded[championship][year];
         }
