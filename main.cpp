@@ -55,9 +55,9 @@ int main()
     Team teamC("Botafogo", goalsScoredTeamC, goalsConcededC);
 
     // Adicionar o time na liga
-    liga.addTime(teamA);
-    liga.addTime(teamB);
-    liga.addTime(teamC);
+    liga.addTeam(teamA);
+    liga.addTeam(teamB);
+    liga.addTeam(teamC);
 
     // Pegar os times da liga
     vector<Team> teams = liga.getTeams();

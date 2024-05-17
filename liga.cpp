@@ -6,6 +6,12 @@
 #include <iomanip>
 #include <algorithm>
 
+// Metodo para adicionar um time na lista de times
+void Liga::addTeam(Team team)
+{
+    teams.push_back(team);
+}
+
 // Esta funcao adiciona um novo time a lista de times da liga.
 vector<Team> Liga::getTeams()
 {

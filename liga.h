@@ -11,7 +11,7 @@ using namespace std;
 class Liga
 {
 public:
-    void addTime(Team team);
+    void addTeam(Team team);
     vector<Team> getTeams();
 
     vector<double> averageGoalEvolutionScoredPerChampionship(Team team, unsigned int year);
